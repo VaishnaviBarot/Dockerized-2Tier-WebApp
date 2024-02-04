@@ -31,7 +31,6 @@ jobs:
         ECR_REPOSITORY: apprepo
         IMAGE_TAG: v0.2
       run: |
-        cd Chapter02/kubia/
         ls -ltra
         # Docker build command for the main application
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f dockerfile .
@@ -43,7 +42,6 @@ jobs:
         ECR_REPOSITORY: mysqlrepo
         IMAGE_TAG: v0.2
       run: |
-        cd Chapter02/kubia/
         ls -ltra
         # Docker build command for MySQL
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f dockerfile_mysql .
