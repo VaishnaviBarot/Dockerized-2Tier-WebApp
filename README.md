@@ -1,14 +1,17 @@
-# 2-Tier Web Application with Docker and MySQL
+# Dockerized 2-Tier Web Application deployment to Amazon-ECR
 
 ## Description
 
-This repository contains the setup and deployment instructions for a 2-tier web application using Docker and MySQL. The application is designed to run locally and integrates a MySQL database with a Python-based web application.
+This repository contains the setup and deployment instructions for a 2-tier web application using Docker and MySQL. The application is designed to run locally and integrates a MySQL database with a Python-based web application. 
+
+Additionally, the repository incorporates a Continuous Integration and Continuous Deployment (CI/CD) workflow using GitHub Actions. This automation simplifies the build and deployment process, allowing the application and its MySQL database images to be built and pushed to Amazon Elastic Container Registry (ECR) automatically whenever changes are made to the main branch.
 
 ### Features
 - **MySQL Integration**: Easily set up and configure a MySQL database using Docker.
 - **Dockerized Application**: Build and run the web application as a Docker container, simplifying the development environment setup.
 - **Environment Variable Configuration**: Flexible configuration using environment variables for database connectivity and application settings.
 - **Local Development**: Step-by-step instructions to run the application and database locally for testing and development.
+- **Automated CI/CD**: Utilize GitHub Actions to automate the building and deployment of Docker images to Amazon ECR, ensuring seamless updates and consistency in the deployment process.
 
 ### Getting Started
 1. Install the required MySQL package:
@@ -55,14 +58,25 @@ This repository contains the setup and deployment instructions for a 2-tier web 
     docker run -p 8080:8080 -e DBHOST=$DBHOST -e DBPORT=$DBPORT -e DBUSER=$DBUSER -e DBPWD=$DBPWD my_app
     ```
 
+### CI/CD Workflow
+
+This repository uses GitHub Actions for continuous integration and deployment (CI/CD). The workflow is defined in the `.github/workflows/deploy.yml` file and includes the following steps:
+
+1. **Check out Code**: Pulls the latest code from the repository.
+2. **Login to Amazon ECR**: Authenticates with Amazon ECR using AWS credentials stored in GitHub secrets.
+3. **Install Dependencies**: Updates `pip` and installs the required Python dependencies.
+4. **Build and Push Main Application Image**: Builds the Docker image for the main application and pushes it to ECR.
+5. **Build and Push MySQL Image**: Builds the Docker image for MySQL and pushes it to ECR.
+
 ### Prerequisites
 - Docker installed on your machine.
 - Python and required libraries as specified in the `requirements.txt` file.
+- An AWS account with permissions to use Amazon ECR.
+- Amazon ECR repositories created for both the application and MySQL images.
+- GitHub repository secrets configured with your AWS credentials:
+  - `AWS_ACCESS_KEY_ID`
+  - `AWS_SECRET_ACCESS_KEY`
+  - `AWS_SESSION_TOKEN`
 
 ### Usage
-Follow the instructions in this repository to set up the application locally, and make sure it is accessible via your web browser.
-
-
-
-
-
+Follow the instructions in this repository to set up the application locally, and make sure it is accessible via your web browser. For automated deployments to AWS, push changes to the `main` branch to trigger the GitHub Actions workflow.
